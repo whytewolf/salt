@@ -817,7 +817,7 @@ def get_master_key(key_user, opts, skip_perm_errors=False):
         # The username may contain '\' if it is in Windows
         # 'DOMAIN\username' format. Fix this for the keyfile path.
         key_user = key_user.replace("\\", "_")
-    keyfile = os.path.join(opts["cachedir"], ".{}_key".format(key_user))
+    keyfile = os.path.join(opts["userkeydir"], ".{}_key".format(key_user))
     # Make sure all key parent directories are accessible
     salt.utils.verify.check_path_traversal(opts["cachedir"], key_user, skip_perm_errors)
 

@@ -190,6 +190,8 @@ VALID_OPTS = immutabletypes.freeze(
         "id_function": (dict, str),
         # The directory to store all cache files.
         "cachedir": str,
+        # userkeydir directory where master root_key gets stored for cli access, seperated to allow nfs access to cache
+        "userkeydir": str,
         # Append minion_id to these directories.  Helps with
         # multiple proxies and minions running on the same machine.
         # Allowed elements in the list: pki_dir, cachedir, extension_modules, pidfile
@@ -1282,6 +1284,7 @@ DEFAULT_MASTER_OPTS = immutabletypes.freeze(
         "pki_dir": os.path.join(salt.syspaths.CONFIG_DIR, "pki", "master"),
         "key_cache": "",
         "cachedir": os.path.join(salt.syspaths.CACHE_DIR, "master"),
+        "userkeydir": os.path.join(salt.syspaths.CACHE_DIR, "master"),
         "file_roots": {
             "base": [salt.syspaths.BASE_FILE_ROOTS_DIR, salt.syspaths.SPM_FORMULA_PATH]
         },
@@ -2381,6 +2384,7 @@ def syndic_config(
     prepend_root_dirs = [
         "pki_dir",
         "cachedir",
+        "userkeydir",
         "pidfile",
         "sock_dir",
         "extension_modules",
@@ -3883,6 +3887,11 @@ def apply_master_config(overrides=None, defaults=None):
     # Insert all 'utils_dirs' directories to the system path
     insert_system_path(opts, opts["utils_dirs"])
 
+
+    # setup userkeydir as cachedir to start with
+    opts["userkeydir"] = opts.get("userkeydir") or opts["cachedir"]
+
+
     if overrides.get("ipc_write_buffer", "") == "dynamic":
         opts["ipc_write_buffer"] = _DFLT_IPC_WBUFFER
     if "ipc_write_buffer" not in overrides:
@@ -3903,6 +3912,7 @@ def apply_master_config(overrides=None, defaults=None):
     prepend_root_dirs = [
         "pki_dir",
         "cachedir",
+        "userkeydir",
         "pidfile",
         "sock_dir",
         "extension_modules",

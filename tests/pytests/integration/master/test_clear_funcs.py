@@ -39,7 +39,7 @@ class UserInfo:
 
     @key_path.default
     def _default_key_path(self):
-        return pathlib.Path(self.master_config["cachedir"]) / self.key_file
+        return pathlib.Path(self.master_config["userkeydir"]) / self.key_file
 
     @key.default
     def _default_key(self):

@@ -83,7 +83,7 @@ class SaltCMD(salt.utils.parsers.SaltCMDOptionParser):
 
             try:
                 with salt.utils.files.fopen(
-                    os.path.join(self.config["cachedir"], ".root_key"), "r"
+                    os.path.join(self.config["userkeydir"], ".root_key"), "r"
                 ) as fp_:
                     kwargs["key"] = fp_.readline()
             except OSError:

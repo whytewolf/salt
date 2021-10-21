@@ -247,11 +247,11 @@ class LocalClient:
             # The username may contain '\' if it is in Windows
             # 'DOMAIN\username' format. Fix this for the keyfile path.
             key_user = key_user.replace("\\", "_")
-        keyfile = os.path.join(self.opts["cachedir"], ".{}_key".format(key_user))
+        keyfile = os.path.join(self.opts["userkeydir"], ".{}_key".format(key_user))
         try:
             # Make sure all key parent directories are accessible
             salt.utils.verify.check_path_traversal(
-                self.opts["cachedir"], key_user, self.skip_perm_errors
+                self.opts["userkeydir"], key_user, self.skip_perm_errors
             )
             with salt.utils.files.fopen(keyfile, "r") as key:
                 return salt.utils.stringutils.to_unicode(key.read())

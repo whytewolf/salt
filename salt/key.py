@@ -112,7 +112,7 @@ class KeyCLI:
             if "token" in self.opts:
                 try:
                     with salt.utils.files.fopen(
-                        os.path.join(self.opts["cachedir"], ".root_key"), "r"
+                        os.path.join(self.opts["userkeydir"], ".root_key"), "r"
                     ) as fp_:
                         low["key"] = salt.utils.stringutils.to_unicode(fp_.readline())
                 except OSError:
